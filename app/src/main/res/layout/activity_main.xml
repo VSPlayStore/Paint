@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EAEAEA"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/customise_panel"
+        android:layout_margin="10dp"
+        android:elevation="10dp"
+        tools:listitem="PaintFragment" />
+
+    <ScrollView
+        android:id="@+id/customise_panel"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:padding="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/brush_text"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:text="@string/brush_width"
+                android:textColor="#000000" />
+
+            <SeekBar
+                android:id="@+id/stroke_width"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/brush_text" />
+
+            <TextView
+                android:id="@+id/brush_color_text"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/brush_text"
+                android:layout_marginTop="10dp"
+                android:text="@string/brush_color"
+                android:textColor="#000000" />
+
+            <com.rtugeek.android.colorseekbar.ColorSeekBar
+                android:id="@+id/stroke_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/stroke_width"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/brush_text"
+                app:colorSeeds="@array/custom_colors"
+                app:showAlphaBar="true" />
+
+            <ImageButton
+                android:id="@+id/eraser"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/stroke_color"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/eraser"
+                android:src="@drawable/eraser"
+                android:textAllCaps="false" />
+
+            <SeekBar
+                android:id="@+id/eraser_width"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/stroke_color"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/eraser" />
+
+            <ImageButton
+                android:id="@+id/save_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/eraser"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="40dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/save"
+                android:padding="10dp"
+                app:srcCompat="@drawable/ic_save" />
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>
