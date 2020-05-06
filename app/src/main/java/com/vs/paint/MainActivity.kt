@@ -3,6 +3,7 @@ package com.vs.paint
 import android.Manifest
 import android.content.ContentValues
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
@@ -15,9 +16,11 @@ import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.io.File.separator
@@ -44,6 +47,9 @@ class MainActivity : AppCompatActivity() {
         val fragmentManager: FragmentManager = supportFragmentManager
         val transaction: FragmentTransaction = fragmentManager.beginTransaction()
         transaction.add(R.id.frame, fragment, "PAINT_FRAGMENT").commit()
+
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
 
         var drawColor = ResourcesCompat.getColor(resources, R.color.White, null)
         paintStroke(drawColor, STROKE_WIDTH)
@@ -87,11 +93,15 @@ class MainActivity : AppCompatActivity() {
 
         save_btn.setOnClickListener {
             requestStoragePermission()
-            saveImage(PaintCanvas.extraBitmap, this)
-            if (Build.VERSION.SDK_INT >= 29) {
-                Toast.makeText(this, "saved at /Pictures/Paint/", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "saved at /Paint/", Toast.LENGTH_SHORT).show()
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED
+            ) {
+                saveImage(PaintCanvas.extraBitmap, this)
+                if (Build.VERSION.SDK_INT >= 29) {
+                    Toast.makeText(this, "saved at /Pictures/Paint/", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "saved at /Paint/", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

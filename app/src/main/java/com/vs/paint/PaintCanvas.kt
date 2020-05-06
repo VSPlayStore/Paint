@@ -8,7 +8,6 @@ import android.graphics.Path
 import android.view.MotionEvent
 import android.view.View
 
-
 private var motionTouchEventX = 0f
 private var motionTouchEventY = 0f
 private var currentX = 0f
@@ -19,6 +18,7 @@ class PaintCanvas(context: Context) : View(context) {
     companion object {
         lateinit var extraCanvas: Canvas
         lateinit var extraBitmap: Bitmap
+        lateinit var saveCanvas: Canvas
         var path = Path()
     }
 
@@ -31,6 +31,7 @@ class PaintCanvas(context: Context) : View(context) {
 
     private fun touchStart() {
         path.reset()
+        extraCanvas.save()
         path.moveTo(motionTouchEventX, motionTouchEventY)
         currentX = motionTouchEventX
         currentY = motionTouchEventY
@@ -51,6 +52,8 @@ class PaintCanvas(context: Context) : View(context) {
 
     private fun touchUp() {
         path.reset()
+
+        saveCanvas = extraCanvas
     }
 
     @SuppressLint("ClickableViewAccessibility")

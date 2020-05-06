@@ -7,4 +7,6 @@
     <string name="brush_color">Brush Color</string>
     <string name="eraser">Eraser</string>
     <string name="save">Save</string>
+    <string name="upload">Choose File</string>
+    <string name="undo">Undo</string>
 </resources>

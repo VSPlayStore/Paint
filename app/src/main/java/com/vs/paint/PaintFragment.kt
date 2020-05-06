@@ -16,5 +16,4 @@ class PaintFragment : Fragment() {
         canvas.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         return canvas
     }
-
 }
