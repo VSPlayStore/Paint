@@ -20,7 +20,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.io.File.separator
@@ -47,9 +46,6 @@ class MainActivity : AppCompatActivity() {
         val fragmentManager: FragmentManager = supportFragmentManager
         val transaction: FragmentTransaction = fragmentManager.beginTransaction()
         transaction.add(R.id.frame, fragment, "PAINT_FRAGMENT").commit()
-
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
 
         var drawColor = ResourcesCompat.getColor(resources, R.color.White, null)
         paintStroke(drawColor, STROKE_WIDTH)
