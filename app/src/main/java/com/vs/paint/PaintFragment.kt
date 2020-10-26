@@ -12,8 +12,6 @@ class PaintFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val canvas = PaintCanvas(context!!)
-        canvas.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        return canvas
+        return PaintCanvas(context!!)
     }
 }
