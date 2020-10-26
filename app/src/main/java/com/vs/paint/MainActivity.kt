@@ -28,7 +28,7 @@ import java.io.OutputStream
 
 class MainActivity : AppCompatActivity() {
 
-    companion object {
+    companion object {  
         var STROKE_WIDTH = 12f
         var ERASER_WIDTH = 12f
         lateinit var paint: Paint

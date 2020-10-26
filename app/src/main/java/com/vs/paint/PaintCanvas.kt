@@ -7,6 +7,7 @@ import android.graphics.Canvas
 import android.graphics.Path
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 
 private var motionTouchEventX = 0f
 private var motionTouchEventY = 0f
@@ -18,15 +19,25 @@ class PaintCanvas(context: Context) : View(context) {
     companion object {
         lateinit var extraCanvas: Canvas
         lateinit var extraBitmap: Bitmap
-        lateinit var saveCanvas: Canvas
         var path = Path()
     }
 
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
         super.onSizeChanged(width, height, oldWidth, oldHeight)
-        extraBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        extraCanvas = Canvas(extraBitmap)
-        extraCanvas.drawColor(MainActivity.backgroundColor)
+        try {
+            if (width > 0 && height > 0) {
+                extraBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                extraCanvas = Canvas(extraBitmap)
+                extraCanvas.drawColor(MainActivity.backgroundColor)
+            }
+        } catch (e: IllegalArgumentException) {
+            Toast.makeText(
+                context,
+                "Some Thing is not right please restart the app",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
     }
 
     private fun touchStart() {
@@ -52,8 +63,6 @@ class PaintCanvas(context: Context) : View(context) {
 
     private fun touchUp() {
         path.reset()
-
-        saveCanvas = extraCanvas
     }
 
     @SuppressLint("ClickableViewAccessibility")
