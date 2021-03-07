@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.io.File.separator
@@ -28,18 +36,25 @@ import java.io.OutputStream
 
 class MainActivity : AppCompatActivity() {
 
-    companion object {  
+    companion object {
         var STROKE_WIDTH = 12f
         var ERASER_WIDTH = 12f
         lateinit var paint: Paint
         var backgroundColor = Color.parseColor("#FFFFFF")
     }
 
+    private var mInterstitialAd: InterstitialAd? = null
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private val code = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val adRequest = AdRequest.Builder().build()
+        firebaseAnalytics = Firebase.analytics
+
+        requestStoragePermission()
 
         // Inflate fragment
         val fragment = PaintFragment()
@@ -98,6 +113,19 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(this, "saved at /Paint/", Toast.LENGTH_SHORT).show()
                 }
+
+                InterstitialAd.load(this,"ca-app-pub-3940256099942544/1033173712", adRequest, object : InterstitialAdLoadCallback() {
+                    override fun onAdFailedToLoad(adError: LoadAdError) {
+                        Log.d("TAG", adError.message)
+                    }
+
+                    override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                        Log.d("TAG", "Ad was loaded.")
+                        mInterstitialAd = interstitialAd
+                    }
+                })
+
+                mInterstitialAd?.show(this)
             }
         }
 
