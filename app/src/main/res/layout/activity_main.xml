@@ -36,7 +36,7 @@
                 android:textColor="#000000" />
 
             <SeekBar
-                android:id="@+id/stroke_width"
+                android:id="@+id/strokeWidth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/brush_text" />
@@ -51,10 +51,10 @@
                 android:textColor="#000000" />
 
             <com.rtugeek.android.colorseekbar.ColorSeekBar
-                android:id="@+id/stroke_color"
+                android:id="@+id/strokeColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/stroke_width"
+                android:layout_below="@+id/strokeWidth"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/brush_text"
                 app:colorSeeds="@array/custom_colors"
@@ -64,22 +64,22 @@
                 android:id="@+id/eraser"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
-                android:layout_below="@+id/stroke_color"
+                android:layout_below="@+id/strokeColor"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/eraser"
                 android:src="@drawable/eraser"
                 android:textAllCaps="false" />
 
             <SeekBar
-                android:id="@+id/eraser_width"
+                android:id="@+id/eraserWidth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/stroke_color"
+                android:layout_below="@+id/strokeColor"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/eraser" />
 
             <ImageButton
-                android:id="@+id/save_btn"
+                android:id="@+id/saveBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/eraser"

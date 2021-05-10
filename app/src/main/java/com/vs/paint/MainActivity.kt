@@ -28,7 +28,7 @@ import com.mopub.common.SdkConfiguration
 import com.mopub.common.SdkInitializationListener
 import com.mopub.common.logging.MoPubLog
 import com.mopub.mobileads.MoPubInterstitial
-import kotlinx.android.synthetic.main.activity_main.*
+import com.vs.paint.databinding.ActivityMainBinding
 import java.io.File
 import java.io.File.separator
 import java.io.FileOutputStream
@@ -46,19 +46,23 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private val code = 1
-    private val AD_UNIT_ID = ""
+    private val addUnitID = ""
     private lateinit var mInterstitial: MoPubInterstitial
+
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         firebaseAnalytics = Firebase.analytics
-        val configBuilder = SdkConfiguration.Builder(AD_UNIT_ID)
+        val configBuilder = SdkConfiguration.Builder(addUnitID)
 
         configBuilder.withLogLevel(MoPubLog.LogLevel.INFO)
         MoPub.initializeSdk(this, configBuilder.build(), initSdkListener())
-        mInterstitial = MoPubInterstitial(this, AD_UNIT_ID)
+        mInterstitial = MoPubInterstitial(this, addUnitID)
 
         requestStoragePermission()
 
@@ -70,10 +74,10 @@ class MainActivity : AppCompatActivity() {
 
         var drawColor = ResourcesCompat.getColor(resources, R.color.White, null)
         paintStroke(drawColor, STROKE_WIDTH)
-        stroke_width.progress = STROKE_WIDTH.toInt() / 2
-        eraser_width.progress = ERASER_WIDTH.toInt()
+        binding.strokeWidth.progress = STROKE_WIDTH.toInt() / 2
+        binding.eraserWidth.progress = ERASER_WIDTH.toInt()
 
-        stroke_width.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        binding.strokeWidth.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 STROKE_WIDTH = progress.toFloat() * 2
                 paintStroke(drawColor, STROKE_WIDTH)
@@ -88,7 +92,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        eraser_width.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        binding.eraserWidth.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 ERASER_WIDTH = progress.toFloat()
                 paintStroke(Color.parseColor("#FFFFFF"), ERASER_WIDTH)
@@ -103,12 +107,12 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        eraser.setOnClickListener {
-            eraser_width.progress = ERASER_WIDTH.toInt()
+        binding.eraser.setOnClickListener {
+            binding.eraserWidth.progress = ERASER_WIDTH.toInt()
             paintStroke(Color.parseColor("#FFFFFF"), ERASER_WIDTH)
         }
 
-        save_btn.setOnClickListener {
+        binding.saveBtn.setOnClickListener {
             requestStoragePermission()
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED
@@ -120,12 +124,12 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "saved at /Paint/", Toast.LENGTH_SHORT).show()
                 }
                 if (mInterstitial.isReady) {
-                    mInterstitial.show();
+                    mInterstitial.show()
                 }
             }
         }
 
-        stroke_color.setOnColorChangeListener { _, _, color ->
+        binding.strokeColor.setOnColorChangeListener { _, _, color ->
             drawColor = color
             paintStroke(drawColor, STROKE_WIDTH)
         }
