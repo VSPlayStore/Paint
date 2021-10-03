@@ -12,7 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/customise_panel"
-        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@color/White"
         android:elevation="10dp"
         tools:listitem="PaintFragment" />
@@ -63,7 +66,7 @@
             <ImageButton
                 android:id="@+id/eraser"
                 android:layout_width="80dp"
-                android:layout_height="40dp"
+                android:layout_height="48dp"
                 android:layout_below="@+id/strokeColor"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/eraser"

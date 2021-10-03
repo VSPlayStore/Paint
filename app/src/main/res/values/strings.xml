@@ -9,4 +9,10 @@
     <string name="save">Save</string>
     <string name="upload">Choose File</string>
     <string name="undo">Undo</string>
+
+    <string name="rate_dialog_title">Paint</string>
+    <string name="rate_dialog_message">Please rate the app</string>
+    <string name="rate_dialog_ok">Rate now</string>
+    <string name="rate_dialog_cancel">Remind later</string>
+    <string name="rate_dialog_no">Not Now</string>
 </resources>

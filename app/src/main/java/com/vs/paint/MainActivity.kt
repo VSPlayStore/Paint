@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,20 +21,18 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
-import com.mopub.common.MoPub
-import com.mopub.common.SdkConfiguration
-import com.mopub.common.SdkInitializationListener
-import com.mopub.common.logging.MoPubLog
-import com.mopub.mobileads.MoPubInterstitial
 import com.vs.paint.databinding.ActivityMainBinding
+import hotchemi.android.rate.AppRate
 import java.io.File
 import java.io.File.separator
 import java.io.FileOutputStream
 import java.io.OutputStream
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,10 +43,10 @@ class MainActivity : AppCompatActivity() {
         var backgroundColor = Color.parseColor("#FFFFFF")
     }
 
+    private var mInterstitialAd: InterstitialAd? = null
+    private var tag = "MainActivity"
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private val code = 1
-    private val addUnitID = ""
-    private lateinit var mInterstitial: MoPubInterstitial
 
     private lateinit var binding: ActivityMainBinding
 
@@ -58,11 +57,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         firebaseAnalytics = Firebase.analytics
-        val configBuilder = SdkConfiguration.Builder(addUnitID)
+        MobileAds.initialize(this) {}
 
-        configBuilder.withLogLevel(MoPubLog.LogLevel.INFO)
-        MoPub.initializeSdk(this, configBuilder.build(), initSdkListener())
-        mInterstitial = MoPubInterstitial(this, addUnitID)
+        MobileAds.setRequestConfiguration(
+            RequestConfiguration.Builder()
+                .setTestDeviceIds(listOf(""))
+                .build()
+        )
+
+        loadAd()
+
+        AppRate.with(this)
+            .setInstallDays(3)
+            .setLaunchTimes(3)
+            .setRemindInterval(3)
+            .monitor()
+
+        AppRate.showRateDialogIfMeetsConditions(this)
 
         requestStoragePermission()
 
@@ -76,6 +87,11 @@ class MainActivity : AppCompatActivity() {
         paintStroke(drawColor, STROKE_WIDTH)
         binding.strokeWidth.progress = STROKE_WIDTH.toInt() / 2
         binding.eraserWidth.progress = ERASER_WIDTH.toInt()
+
+        binding.strokeColor.setOnColorChangeListener { _, _, color ->
+            drawColor = color
+            paintStroke(drawColor, STROKE_WIDTH)
+        }
 
         binding.strokeWidth.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -123,15 +139,46 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(this, "saved at /Paint/", Toast.LENGTH_SHORT).show()
                 }
-                if (mInterstitial.isReady) {
-                    mInterstitial.show()
+
+                if (mInterstitialAd != null) {
+                    mInterstitialAd?.show(this)
+                } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.")
                 }
+                loadAd()
             }
         }
+    }
 
-        binding.strokeColor.setOnColorChangeListener { _, _, color ->
-            drawColor = color
-            paintStroke(drawColor, STROKE_WIDTH)
+    private fun loadAd() {
+        val adRequest = AdRequest.Builder().build()
+
+        InterstitialAd.load(
+            this,
+            "",
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    Log.d(tag, adError.message)
+                    mInterstitialAd = null
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    Log.d(tag, "Ad was loaded.")
+                    mInterstitialAd = interstitialAd
+                }
+            })
+
+        mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdDismissedFullScreenContent() {
+            }
+
+            override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+            }
+
+            override fun onAdShowedFullScreenContent() {
+                mInterstitialAd = null
+            }
         }
     }
 
@@ -145,12 +192,6 @@ class MainActivity : AppCompatActivity() {
             strokeJoin = Paint.Join.ROUND
             strokeCap = Paint.Cap.ROUND
             strokeWidth = STROKE_WIDTH
-        }
-    }
-
-    private fun initSdkListener(): SdkInitializationListener {
-        return SdkInitializationListener {
-            mInterstitial.load()
         }
     }
 
