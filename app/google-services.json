@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "908246397413",
+    "project_id": "paint-vs",
+    "storage_bucket": "paint-vs.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908246397413:android:4ed93ffc5573f67afcff0c",
+        "android_client_info": {
+          "package_name": "com.vs.paint"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908246397413-q9hsbt09748t4ak2bs88ktr2ithtvu76.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCupWSfbNRF_m_WmIffEJWjMS36MV73og"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908246397413-q9hsbt09748t4ak2bs88ktr2ithtvu76.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-1389292252312215~6022788889"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908246397413:android:64c9f152a6a4c40bfcff0c",
+        "android_client_info": {
+          "package_name": "com.vs.paint.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908246397413-q9hsbt09748t4ak2bs88ktr2ithtvu76.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCupWSfbNRF_m_WmIffEJWjMS36MV73og"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908246397413-q9hsbt09748t4ak2bs88ktr2ithtvu76.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

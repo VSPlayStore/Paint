@@ -135,7 +135,8 @@ class MainActivity : AppCompatActivity() {
             ) {
                 saveImage(PaintCanvas.extraBitmap, this)
                 if (Build.VERSION.SDK_INT >= 29) {
-                    Toast.makeText(this, "saved at /Pictures/Paint/", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "saved at /Pictures/Paint/", Toast.LENGTH_SHORT)
+                        .show()
                 } else {
                     Toast.makeText(this, "saved at /Paint/", Toast.LENGTH_SHORT).show()
                 }
@@ -155,7 +156,7 @@ class MainActivity : AppCompatActivity() {
 
         InterstitialAd.load(
             this,
-            "",
+            getString(R.string.AD_SAVE_ID),
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
