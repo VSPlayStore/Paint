@@ -18,6 +18,11 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
         cache: gradle
+        
+    - name: Create file
+      run: |
+        echo APP_ID=${{ secrets.APP_ID }} > .env
+        echo AD_SAVE_ID=${{ secrets.AD_SAVE_ID }} >> .env
 
     - name: Build with Gradle
       run: chmod +x gradlew && ./gradlew assembleDebug --stacktrace
