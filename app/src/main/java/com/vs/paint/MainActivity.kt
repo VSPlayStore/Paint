@@ -99,13 +99,9 @@ class MainActivity : AppCompatActivity() {
                 paintStroke(drawColor, STROKE_WIDTH)
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-
-            }
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
         binding.eraserWidth.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -114,13 +110,9 @@ class MainActivity : AppCompatActivity() {
                 paintStroke(Color.parseColor("#FFFFFF"), ERASER_WIDTH)
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-
-            }
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
         binding.eraser.setOnClickListener {
@@ -171,11 +163,9 @@ class MainActivity : AppCompatActivity() {
             })
 
         mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
-            override fun onAdDismissedFullScreenContent() {
-            }
+            override fun onAdDismissedFullScreenContent() {}
 
-            override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
-            }
+            override fun onAdFailedToShowFullScreenContent(adError: AdError) {}
 
             override fun onAdShowedFullScreenContent() {
                 mInterstitialAd = null
