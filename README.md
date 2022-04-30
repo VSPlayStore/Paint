@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <div align="center">
   <a href="https://github.com/VsTechDev/Paint">
-    <img src="https://raw.githubusercontent.com/VsTechDev/Paint/master/app/src/main/res/drawable/img.png" alt="Logo" width="80" height="80">
+    <img src="https://raw.githubusercontent.com/VsTechDev/Paint/master/app/src/main/res/drawable/icon.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Paint</h3>
