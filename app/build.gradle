@@ -62,18 +62,17 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-bom:30.4.1'
-    implementation 'com.google.firebase:firebase-analytics-ktx:21.1.1'
+    implementation 'com.google.firebase:firebase-bom:31.1.1'
+    implementation 'com.google.firebase:firebase-analytics-ktx:21.2.0'
 
     // ADS
     implementation 'com.google.android.gms:play-services-ads:21.4.0'
 
     // 3rd Party
-    implementation 'com.github.rtugeek:colorseekbar:1.7.6'
-    implementation 'com.github.hotchemi:android-rate:1.0.1'
+    implementation 'com.github.rtugeek:colorseekbar:1.7.7'
 
     // Test
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 }

@@ -1,6 +1,7 @@
 package com.vs.paint
 
 import android.Manifest
+import androidx.fragment.app.FragmentManager
 import android.content.ContentValues
 import android.content.Context
 import android.content.pm.PackageManager
@@ -19,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
@@ -28,7 +28,6 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.vs.paint.databinding.ActivityMainBinding
-import hotchemi.android.rate.AppRate
 import java.io.File
 import java.io.File.separator
 import java.io.FileOutputStream
@@ -66,14 +65,6 @@ class MainActivity : AppCompatActivity() {
         )
 
         loadAd()
-
-        AppRate.with(this)
-            .setInstallDays(3)
-            .setLaunchTimes(3)
-            .setRemindInterval(3)
-            .monitor()
-
-        AppRate.showRateDialogIfMeetsConditions(this)
 
         requestStoragePermission()
 
