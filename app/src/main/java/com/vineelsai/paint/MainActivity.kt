@@ -1,4 +1,4 @@
-package com.vs.paint
+package com.vineelsai.paint
 
 import android.Manifest
 import androidx.fragment.app.FragmentManager
@@ -27,7 +27,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
-import com.vs.paint.databinding.ActivityMainBinding
+import com.vineelsai.paint.databinding.ActivityMainBinding
 import java.io.File
 import java.io.File.separator
 import java.io.FileOutputStream

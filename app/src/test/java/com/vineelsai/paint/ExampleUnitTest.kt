@@ -1,4 +1,4 @@
-package com.vs.paint
+package com.vineelsai.paint
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

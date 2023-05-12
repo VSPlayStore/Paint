@@ -1,4 +1,4 @@
-package com.vs.paint
+package com.vineelsai.paint
 
 import android.os.Bundle
 import android.view.LayoutInflater

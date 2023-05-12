@@ -1,4 +1,4 @@
-package com.vs.paint
+package com.vineelsai.paint
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
