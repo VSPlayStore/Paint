@@ -1,7 +1,6 @@
 package com.vineelsai.paint
 
 import android.Manifest
-import androidx.fragment.app.FragmentManager
 import android.content.ContentValues
 import android.content.Context
 import android.content.pm.PackageManager
@@ -9,9 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.SeekBar
@@ -20,17 +17,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.google.android.gms.ads.*
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.vineelsai.paint.databinding.ActivityMainBinding
-import java.io.File
-import java.io.File.separator
-import java.io.FileOutputStream
 import java.io.OutputStream
 
 class MainActivity : AppCompatActivity() {
@@ -117,12 +117,8 @@ class MainActivity : AppCompatActivity() {
                 == PackageManager.PERMISSION_GRANTED
             ) {
                 saveImage(PaintCanvas.extraBitmap, this)
-                if (Build.VERSION.SDK_INT >= 29) {
-                    Toast.makeText(this, "saved at /Pictures/Paint/", Toast.LENGTH_SHORT)
-                        .show()
-                } else {
-                    Toast.makeText(this, "saved at /Paint/", Toast.LENGTH_SHORT).show()
-                }
+                Toast.makeText(this, "saved at /Pictures/Paint/", Toast.LENGTH_SHORT)
+                    .show()
 
                 if (mInterstitialAd != null) {
                     mInterstitialAd?.show(this)
@@ -178,29 +174,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveImage(bitmap: Bitmap, context: Context) {
-        if (Build.VERSION.SDK_INT >= 29) {
-            val values = contentValues()
-            values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/Paint")
-            values.put(MediaStore.Images.Media.IS_PENDING, true)
-            val uri: Uri? =
-                context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-            if (uri != null) {
-                saveImageToStream(bitmap, context.contentResolver.openOutputStream(uri))
-                values.put(MediaStore.Images.Media.IS_PENDING, false)
-                context.contentResolver.update(uri, values, null, null)
-            }
-        } else {
-            val directory =
-                File(Environment.getExternalStorageDirectory().absolutePath + separator + "Paint")
-            if (!directory.exists()) {
-                directory.mkdirs()
-            }
-            val fileName = System.currentTimeMillis().toString() + ".png"
-            val file = File(directory, fileName)
-            saveImageToStream(bitmap, FileOutputStream(file))
-            val values = contentValues()
-            values.put(MediaStore.Images.Media.DATE_ADDED, file.absolutePath)
+        val values = contentValues()
+        values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/Paint")
+        values.put(MediaStore.Images.Media.IS_PENDING, true)
+        val uri: Uri? =
             context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+        if (uri != null) {
+            saveImageToStream(bitmap, context.contentResolver.openOutputStream(uri))
+            values.put(MediaStore.Images.Media.IS_PENDING, false)
+            context.contentResolver.update(uri, values, null, null)
         }
     }
 
@@ -208,9 +190,7 @@ class MainActivity : AppCompatActivity() {
         val values = ContentValues()
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/png")
         values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis())
-        }
+        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis())
         return values
     }
 
