@@ -23,6 +23,7 @@ jobs:
       run: |
         echo APP_ID=${{ secrets.APP_ID }} > .env
         echo AD_SAVE_ID=${{ secrets.AD_SAVE_ID }} >> .env
+        echo ${{ secrets.GOOGLE_SERVICES_JSON }} | base64 -d > app/google-services.json
 
     - name: Build with Gradle
       run: chmod +x gradlew && ./gradlew assembleDebug --stacktrace
