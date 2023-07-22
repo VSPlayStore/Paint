@@ -18,8 +18,8 @@ android {
         applicationId = "com.vineelsai.paint"
         minSdk = 29
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "1.0.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         env["APP_ID"]?.let { resValue("string", "APP_ID", it) }
@@ -76,7 +76,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics-ktx:21.2.2")
 
     // ADS
-    implementation("com.google.android.gms:play-services-ads:22.0.0")
+    implementation("com.google.android.gms:play-services-ads:22.1.0")
 
     // 3rd Party
     implementation("com.github.rtugeek:colorseekbar:1.7.7")

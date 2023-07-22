@@ -3,7 +3,6 @@ package com.vineelsai.paint
 import android.Manifest
 import android.content.ContentValues
 import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
@@ -15,7 +14,6 @@ import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -112,21 +110,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.saveBtn.setOnClickListener {
-            requestStoragePermission()
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED
-            ) {
-                saveImage(PaintCanvas.extraBitmap, this)
-                Toast.makeText(this, "saved at /Pictures/Paint/", Toast.LENGTH_SHORT)
-                    .show()
+            saveImage(PaintCanvas.extraBitmap, this)
+            Toast.makeText(this, "saved at /Pictures/Paint/", Toast.LENGTH_SHORT)
+                .show()
 
-                if (mInterstitialAd != null) {
-                    mInterstitialAd?.show(this)
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.")
-                }
-                loadAd()
+            if (mInterstitialAd != null) {
+                mInterstitialAd?.show(this)
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.")
             }
+            loadAd()
         }
     }
 
