@@ -9,7 +9,6 @@ import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,17 +16,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.google.android.gms.ads.AdError
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.FullScreenContentCallback
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.RequestConfiguration
-import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import com.vineelsai.paint.databinding.ActivityMainBinding
 import java.io.OutputStream
 
@@ -40,9 +28,6 @@ class MainActivity : AppCompatActivity() {
         var backgroundColor = Color.parseColor("#FFFFFF")
     }
 
-    private var mInterstitialAd: InterstitialAd? = null
-    private var tag = "MainActivity"
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private val code = 1
 
     private lateinit var binding: ActivityMainBinding
@@ -52,17 +37,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-        firebaseAnalytics = Firebase.analytics
-        MobileAds.initialize(this) {}
-
-        MobileAds.setRequestConfiguration(
-            RequestConfiguration.Builder()
-                .setTestDeviceIds(listOf(""))
-                .build()
-        )
-
-        loadAd()
 
         requestStoragePermission()
 
@@ -113,47 +87,10 @@ class MainActivity : AppCompatActivity() {
             saveImage(PaintCanvas.extraBitmap, this)
             Toast.makeText(this, "saved at /Pictures/Paint/", Toast.LENGTH_SHORT)
                 .show()
-
-            if (mInterstitialAd != null) {
-                mInterstitialAd?.show(this)
-            } else {
-                Log.d("TAG", "The interstitial ad wasn't ready yet.")
-            }
-            loadAd()
         }
     }
 
-    private fun loadAd() {
-        val adRequest = AdRequest.Builder().build()
-
-        InterstitialAd.load(
-            this,
-            getString(R.string.AD_SAVE_ID),
-            adRequest,
-            object : InterstitialAdLoadCallback() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {
-                    Log.d(tag, adError.message)
-                    mInterstitialAd = null
-                }
-
-                override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                    Log.d(tag, "Ad was loaded.")
-                    mInterstitialAd = interstitialAd
-                }
-            })
-
-        mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
-            override fun onAdDismissedFullScreenContent() {}
-
-            override fun onAdFailedToShowFullScreenContent(adError: AdError) {}
-
-            override fun onAdShowedFullScreenContent() {
-                mInterstitialAd = null
-            }
-        }
-    }
-
-    private fun paintStroke(drawColor: Int, STROKE_WIDTH: Float) {
+    private fun paintStroke(drawColor: Int, width: Float) {
         paint = Paint().apply {
             color = drawColor
             isAntiAlias = true
@@ -162,7 +99,7 @@ class MainActivity : AppCompatActivity() {
             style = Paint.Style.STROKE
             strokeJoin = Paint.Join.ROUND
             strokeCap = Paint.Cap.ROUND
-            strokeWidth = STROKE_WIDTH
+            strokeWidth = width
         }
     }
 
