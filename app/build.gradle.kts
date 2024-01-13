@@ -4,12 +4,6 @@ plugins {
     id ("kotlin-android")
 }
 
-val envFile = rootProject.file(".env").readText().trim().split("\n")
-val env = LinkedHashMap<String, String>()
-for (i in envFile) {
-    env[i.trim().split("=")[0]] = i.trim().split("=")[1]
-}
-
 android {
     compileSdk = 34
     buildToolsVersion = "34.0.0"
@@ -21,9 +15,6 @@ android {
         versionCode = 2
         versionName = "1.0.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        env["APP_ID"]?.let { resValue("string", "APP_ID", it) }
-        env["AD_SAVE_ID"]?.let { resValue("string", "AD_SAVE_ID", it) }
     }
     buildFeatures {
         viewBinding = true
